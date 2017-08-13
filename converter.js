@@ -72,13 +72,25 @@ function convert () {
                         if (message.event_type == "SMS") {
                             message.chat_message.message_content.segment.forEach(segment => {
                                 if (segment.text != "\n") {
+                                    var who, type;
+
+                                    if (message.sender_id.gaia_id != gaia) {
+                                        console.log (message.sender_id.gaia_id != gaia);
+                                        who = mynumber;
+                                        type = 2
+                                    } else {
+                                        who = number;
+                                        type = 1;
+                                    }
+
+
                                     messages.smses.sms.push({
 
                                         attributes: {
                                             protocol: 0,
-                                            address: (message.sender_id.gaia_id == gaia) ? number : mynumber,
+                                            address: who,
                                             date: Math.floor(message.timestamp / 1000),
-                                            type: (message.sender_id.gaia_id == gaia) ? 1 : 2,
+                                            type: type,
                                             subject: "null",
                                             body: segment.text,
                                             toa: "null",
