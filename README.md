@@ -1,14 +1,30 @@
-# hangouts-to-sms
-Convert Hangouts backup into an sms backup for importing into SMS backup and restore.
-If you want to get your messages out of Google Hangouts and put them back into your phone's SMS storage:
-* Install SMS backup and restore
-* Backup your sms messages to Dropbox or Google Drive
+# GoogleExportSMS
+Convert a Hangouts or Voice backup into an SMS backup for Android using SMS Backup and Restore.
+
+# Instructions for All
+* Run npm install in the base directory.
+* Edit config.json to put your name and number.
+* Install SMS Backup and Restore on your Android device.
+* Backup your SMS messages to Dropbox / Google Drive
 * Go To: https://takeout.google.com/settings/takeout
-* Click Select None to clear everything, then select Contacts and Hangouts and proceed to export the data.
-* Put All Contacts.vcard and Hangouts.json into the directory where this script is checked out.
-* Edit converter.js to put your number in mynumber variable.
+* Click Select None to clear everything, then select Contacts and Hangouts/Voice and proceed to export the data.
+
+# Hangouts
+* Copy All Contacts.vcard and Hangouts.json into the /hangouts/ directory.
+* Copy the sms-20xxxxxxxxxxxx.xml in Dropbox / Google Drive to a new file with the current time that will appear to be the latest backup.
 * Execute converter.js with node.js.
-* Open the sms backup xml you created, copy all the sms elements and paste them into the backup.xml that was created.
-* Copy the backup.xml file to wherever you have SMS backup and restore pointed and rename it so it appears to be the latest backup, ex: sms-20170812200633.xml
-* Import with SMS backup and restore
-* Congrats, you now have all your Hangouts messages to import into another app.
+* Open the sms-20xxxxxxxxxxxx.xml created in /hangouts/ and copy all the sms elements, paste them into the sms xml that you created in Dropbox / Google Drive.
+* If you also need to do Voice proceed to those steps, but don't create a new sms xml file in Dropbox / Google Drive, use the same one you created for Hangouts.
+* Wait for the file to upload to cloud storage, then import with SMS backup and restore.
+* Congrats, you now have all your Hangouts messages available in any SMS app you want to use.
+
+# Voice
+* Copy All Contacts.vcard and the Calls directory into the /voice/ directory.
+* Copy the sms-20xxxxxxxxxxxx.xml in Dropbox / Google Drive to a new file with the current time that will appear to be the latest backup.
+* Execute voice.js with node.js.
+* Execute 'grunt connect'
+* Go to http://localhost:8765/
+* When the script has finished click "Download XML" and open the file, then copy all the sms elements ... or expand the textarea on the left and copy all the sms elements.
+* Paste the elements into the sms xml that you created in Dropbox / Google Drive.
+* Wait for the file to upload to cloud storage, then import it with SMS backup and restore.
+* Congrats, you now have all your Google Voice messages available in any SMS app you want to use.
