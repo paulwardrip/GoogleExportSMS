@@ -4,6 +4,7 @@
   "description": "Convert a Google Hangouts or Voice backup into an SMS backup file for SMS Backup and Restore.",
   "main": "hangouts-to-sms.js",
   "dependencies": {
+    "moment": "^2.18.1",
     "vcard-json": "^0.5.2",
     "xmldoc": "^1.1.0"
   },
