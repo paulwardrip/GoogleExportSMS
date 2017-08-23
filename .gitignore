@@ -1,2 +1,8 @@
 node_modules
 .idea
+hangouts/searchtree.js
+voice/Calls
+voice-export.html
+Hangouts.json
+sms*.xml
+All Contacts.vcf

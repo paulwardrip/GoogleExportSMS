@@ -1,14 +1,17 @@
 {
-  "name": "hangouts-sms-export",
-  "version": "1.0.0",
-  "description": "Convert a Google Hangouts backup into an sms backup for importing into other sms apps using SMS backup and restore.",
+  "name": "google-export-sms",
+  "version": "0.2.1",
+  "description": "Convert a Google Hangouts or Voice backup into an SMS backup file for SMS Backup and Restore.",
   "main": "hangouts-to-sms.js",
   "dependencies": {
-    "vcard-json": "^0.5.2"
+    "vcard-json": "^0.5.2",
+    "xmldoc": "^1.1.0"
   },
-  "devDependencies": {},
-  "scripts": {
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2"
   },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paulwardrip/hangouts-to-sms.git"

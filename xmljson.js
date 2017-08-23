@@ -1,3 +1,10 @@
+
+var xmldoc;
+
+if (typeof module !== "undefined") {
+    xmldoc = require("xmldoc");
+}
+
 var xmljson = {
     toXML: function (json, xmlv) {
 
@@ -18,7 +25,6 @@ var xmljson = {
                                 for (var a in tree[node][idx].attributes) {
                                     xml += " " + a + "=\"" + tree[node][idx].attributes[a] + "\"";
                                 }
-
                                 var n = 0;
 
                                 if (typeof tree[node][idx] === "object" ) {
@@ -30,6 +36,7 @@ var xmljson = {
                                     }
 
                                     if (n > 0) {
+                                        xml += ">";
                                         xml += "\n";
                                         xml += unwrap(tree[node][idx], depth + 1);
                                         for (var i = 0; i < depth; i++) {
@@ -104,6 +111,8 @@ var xmljson = {
     },
 
     toJSON: function (xml) {
+        var first = true;
+
         function parse(input) {
             if (typeof input === "object") {
                 if (input instanceof XMLDocument) {
@@ -128,8 +137,13 @@ var xmljson = {
                     return par.parseFromString(input, "application/xml");
 
                 } else {
-                    var doc = new XMLDocument();
-                    doc.loadXML(input);
+                    var doc;
+                    if (xmldoc) {
+                       doc = new xmldoc.XmlDocument(input);
+                    } else {
+                       doc = new XMLDocument();
+                       doc.loadXML(input);
+                    }
                     return doc;
                 }
             }
@@ -139,14 +153,27 @@ var xmljson = {
             var obj = null;
             var elements = false;
 
-            if (node.attributes) {
-                for (var child = 0; child < node.attributes.length; child++) {
-                    if (!obj) obj = {attributes: {}};
-                    obj.attributes[node.attributes[child].name] = node.attributes[child].value;
+            if (xmldoc) {
+                if (first) {
+                    first = false;
+                    obj = {};
+                    obj[node.name] = extract(node);
+                } else {
+                    nodeMode(node);
                 }
+
+            } else {
+                node.eachChild(browserMode)
             }
 
-            node.childNodes.forEach(function (child) {
+            function browserMode(child) {
+                if (node.attributes) {
+                    for (var child = 0; child < node.attributes.length; child++) {
+                        if (!obj) obj = {attributes: {}};
+                        obj.attributes[node.attributes[child].name] = node.attributes[child].value;
+                    }
+                }
+
                 if (child.nodeType === Node.ELEMENT_NODE) {
                     if (!obj) obj = {};
 
@@ -162,13 +189,44 @@ var xmljson = {
                     }
                     elements = true;
                 }
-            });
 
-            if (!elements && node.firstChild) {
-                if (!obj) {
-                    obj = node.firstChild.nodeValue;
-                } else {
-                    obj.value = node.firstChild.nodeValue;
+                if (!elements && node.firstChild) {
+                    if (!obj) {
+                        obj = node.firstChild.nodeValue;
+                    } else {
+                        obj.value = node.firstChild.nodeValue;
+                    }
+                }
+            }
+
+            function nodeMode(child) {
+                for (var name in child.attr) {
+                    if (!obj) obj = {attributes: {}};
+                    if (!obj.attributes) obj.attributes = {};
+                    obj.attributes[name] = child.attr[name];
+                }
+
+                if (child.children !== undefined && child.children !== null && child.children.length > 0) {
+                    for (var idx in child.children) {
+                        var ch = extract(child.children[idx]);
+
+                        if (!obj[child.children[idx].name]) {
+                            obj[child.children[idx].name] = ch;
+                        } else if (obj[child.children[idx].name] instanceof Array) {
+                            obj[child.children[idx].name].push(ch);
+                        } else {
+                            zero = obj[child.children[idx].name];
+                            obj[child.children[idx].name] = [zero, ch];
+                        }
+                    }
+                }
+
+                if (!elements && child.value) {
+                    if (!obj) {
+                        obj = child.value;
+                    } else {
+                        obj.value = child.value;
+                    }
                 }
             }
 
@@ -180,4 +238,4 @@ var xmljson = {
     }
 };
 
-if (module) module.exports = xmljson;
+if (typeof module !== "undefined") module.exports = xmljson;
