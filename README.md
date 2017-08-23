@@ -19,6 +19,7 @@ Convert a Hangouts or Voice backup into an SMS backup for Android using SMS Back
 * Congrats, you now have all your Hangouts messages available in any SMS app you want to use.
 
 # Voice
+* This executes in 2 parts, a node script that consolidates all the data into one html (from many html + vcard). The second part runs in the browser, the parsing was much easier/faster to write in jquery vs using node packages, many of which choked on parsing it. It's a little clunky but it works.
 * Copy All Contacts.vcard and the Calls directory into the /voice/ directory.
 * Copy the sms-20xxxxxxxxxxxx.xml in Dropbox / Google Drive to a new file with the current time that will appear to be the latest backup.
 * Execute voice.js with node.js.
