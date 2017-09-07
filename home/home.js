@@ -40,6 +40,7 @@ $(document).ready(function () {
     }
 
     function c(e) {
+        console.log(e);
         if (e.preventDefault) {
             e.preventDefault();
         }
