@@ -1,0 +1,41 @@
+body {
+    font-family: Lato, Verdana, sans-serif;
+    font-weight: 300;
+    background-color: paleturquoise;
+    color: #404040;
+}
+
+h1 {
+    font-weight: 100;
+    font-size: 100px;
+    padding: 0;
+    margin: 0;
+}
+
+.dropzone {
+    width: 480px;
+    height: 240px;
+    padding: 5px;
+
+    border: 1px dashed black;
+}
+
+.drop-contacts {
+    background-color: aliceblue;
+}
+
+.drop-hangouts {
+    background-color: aquamarine;
+}
+
+.drop-voice {
+    background-color: lightblue;
+}
+
+.drop-sbr {
+    background-color: lavender;
+}
+
+li {
+    padding-bottom: 5px;
+}

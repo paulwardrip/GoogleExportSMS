@@ -1,0 +1,26 @@
+{
+  "name": "google-export-sms",
+  "description": "Convert a Google Hangouts or Voice backup into an SMS backup file for SMS Backup and Restore.",
+  "main": "index.html",
+  "authors": [
+    "Paul Wardrip <pwardrip@gmail.com>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "hangouts",
+    "sms",
+    "import",
+    "export",
+    "convert",
+    "backup"
+  ],
+  "homepage": "https://github.com/paulwardrip/GoogleExportSMS",
+  "moduleType": [],
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "moment": "^2.18.1",
+    "dots": "*",
+    "xml2js": "^0.4.19"
+  }
+}

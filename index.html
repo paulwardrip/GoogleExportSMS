@@ -1,7 +1,92 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <script>
-        document.location.replace("/voice/");
-    </script>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaijaan" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="home/index.css" />
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="bower_components/dots/dist/dots.min.js"></script>
+    <script type="text/javascript" src="home/contacts-browserify.js"></script>
+    <script type="text/javascript" src="home/import-hangouts.js"></script>
+    <script type="text/javascript" src="home/import-voice.js"></script>
+    <script type="text/javascript" src="home/voicehtml.js"></script>
+    <script type="text/javascript" src="home/xmljson.js"></script>
+    <script type="text/javascript" src="home/home.js"></script>
+    <script src="home/dupecheck.js"></script>
 </head>
+<body>
+
+    <h1>Google SMS Exporter</h1>
+
+    <p>With this tool you can merge the text messages from your Android device with backups from
+        <img src="home/voice.webp" width="20" style="vertical-align: middle"/><strong>Google Voice</strong> and/or
+        <img src="home/hangouts.webp" width="20" style="vertical-align: middle"/><strong>Hangouts</strong>,
+        so you can import all of your messages into the SMS app of your choice.</p>
+    <ul class="step-setup">
+        <li>Install <img src="home/backup.webp" width="20" style="vertical-align: middle"/>
+            <a href="https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore"
+               target="_blank">SMS Backup & Restore</a></li>
+        <li>Backup your SMS messages to
+            <img src="home/dropbox.webp" width="20" style="vertical-align: middle"/> <strong>Dropbox</strong> or
+            <img src="home/drive.webp" width="20" style="vertical-align: middle"/> <strong>Google Drive</strong></li>
+        <li>Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a>.
+            <ul><li>Click <i>Select None</i> to clear the options you won't need.</li>
+                <li>Select the app(s) you want to export messages from
+                    <img src="home/hangouts.webp" width="20" style="vertical-align: middle"/><strong>Hangouts</strong>,
+                    <img src="home/voice.webp" width="20" style="vertical-align: middle"/><strong>Voice</strong>
+                    (or both).
+                <li>Also select <img src="home/contacts.webp" width="20" style="vertical-align: middle"/>
+                    <strong>Contacts</strong>.</li>
+                <li>Proceed to export your data.</li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li>Enter your full name <input id="fullname"/></li>
+        <li>Enter your phone # <input id="phone"/></li>
+
+        <li class="step-backup"><div class="step-sbr">Drag and Drop the most recent <strong>sms-yyyymmddhhmmss.xml</strong> from
+            <img src="home/backup.webp" width="20" style="vertical-align: middle"/> SMS Backup & Restore
+            <div><a href="#" class="nobackup">I'm not importing any SMS messages from my phone</a>.</div>
+            <br/>
+            <div class="drop-sbr dropzone">Drop a file on me!</div></div>
+            <div class="status-sbr"></div>
+        </li>
+        <li class="step-contacts" style="display: none"><div class="step-vcf">Drag and Drop <strong>All Contacts.vcf</strong> into this box.
+            <div class="drop-contacts dropzone">Drop a file on me!</div></div>
+            <div class="status-vcf"></div>
+        </li>
+        <li class="step-hangouts" style="display: none"><div class="step-ho">Drag and Drop your <strong>Hangouts.json</strong> into this box.
+            <div><a href="#" class="nohangouts">I'm not exporting anything from Hangouts</a>.</div>
+            <br/>
+            <div class="drop-hangouts dropzone">Drop a file on me!</div></div>
+            <div class="status-ho"></div>
+        </li>
+        <li class="step-voice" style="display: none"><div class="step-vo">Drag and Drop your <strong>Calls</strong> folder from Voice into this box.
+            <div><a href="#" class="novoice">I'm not exporting anything from Voice</a>.</div>
+            <br/>
+            <div class="drop-voice dropzone">Drop a file on me!</div></div>
+            <div class="status-vo"></div>
+        </li>
+
+    </ul>
+    <ul class="step-done" style="display: none">
+        <li>
+            <div class="status-dupecheck"></div>
+        </li>
+        <li>
+            <div class="status-done"></div>
+        </li>
+        <li>
+            <a id="dlxml">Download XML</a> to your backup directory in
+                <img src="home/dropbox.webp" width="20" style="vertical-align: middle"/> <strong>Dropbox</strong> or
+                <img src="home/drive.webp" width="20" style="vertical-align: middle"/> <strong>Google Drive</strong></div>
+        </li>
+        <div>Restore that file with <img src="home/backup.webp" width="20" style="vertical-align: middle"/>
+            SMS Backup & Restore</div>
+    </ul>
+
+    <div class="holding" style="display: none"></div>
+</body>
 </html>

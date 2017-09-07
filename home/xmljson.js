@@ -1,41 +1,83 @@
 var xmljson = {
-    toXML: function (json) {
+    toXML: function (json, xmlv) {
+
+        var VSTR = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n";
+        var xmlvok = false;
+
+        function encode(str) {
+            if (typeof str == "string") {
+                return str.replace(/\&/g, "&amp;").replace(/\"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "");
+            } else {
+                return str;
+            }
+        }
 
         function unwrap(tree, depth) {
             var xml = "";
+            if (xmlv && !xmlvok) {
+                xmlvok = true;
+                xml += VSTR;
+            }
 
             for (var node in tree) {
                 if (typeof tree[node] === "object") {
+
                     if (tree[node] instanceof Array) {
                         for (var idx in tree[node]) {
-                            for (var i = 0; i < depth; i++) {
-                                xml += "\t";
-                            }
-                            xml += "<" + node + ">";
-
-                            if (typeof tree[node][idx] === "object") {
-                                xml += "\n";
-                                xml += unwrap(tree[node][idx], depth + 1);
+                            if (node !== "directive") {
+                                if (!xmlvok) {
+                                    xml = VSTR + xml;
+                                    xmlvok = true;
+                                }
                                 for (var i = 0; i < depth; i++) {
                                     xml += "\t";
                                 }
-                            } else {
-                                xml += tree[node][idx];
+                                xml += "<" + node;
+                                for (var a in tree[node][idx].attributes) {
+                                    xml += " " + a + "=\"" + encode(tree[node][idx].attributes[a]) + "\"";
+                                }
+                                var n = 0;
+
+                                if (typeof tree[node][idx] === "object") {
+
+                                    for (attr in tree[node][idx]) {
+                                        if (attr != "attributes") {
+                                            n++;
+                                        }
+                                    }
+
+                                    if (n > 0) {
+                                        xml += ">";
+                                        xml += "\n";
+                                        xml += unwrap(tree[node][idx], depth + 1);
+                                        for (var i = 0; i < depth; i++) {
+                                            xml += "\t";
+                                        }
+                                    }
+
+                                } else {
+                                    xml += encode(tree[node][idx]);
+                                }
+                                if (n > 0) {
+                                    xml += "</" + node + ">\n";
+                                } else {
+                                    xml += " />\n";
+                                }
                             }
-                            xml += "</" + node + ">\n";
                         }
 
                     } else if (node === "value" && tree.attributes !== undefined) {
-                        xml += tree[node];
+                        xml += encode(tree[node]);
 
                     } else if (node !== "attributes") {
                         for (var i = 0; i < depth; i++) {
                             xml += "\t";
                         }
 
-                        xml += "<" + node;
+                        xml += ((tree[node].directive) ? "<?" : "<") + node;
+
                         for (var a in tree[node].attributes) {
-                            xml += " " + a + "=\"" + tree[node].attributes[a] + "\"";
+                            xml += " " + a + "=\"" + encode(tree[node].attributes[a]) + "\"";
                         }
 
                         var subtext = unwrap(tree[node], depth + 1);
@@ -51,18 +93,20 @@ var xmljson = {
                             }
                             xml += "</" + node + ">\n";
                         } else {
-                            xml += " />\n";
+                            xml += ((tree[node].directive) ? " ?>\n" : " />\n");
                         }
                     }
                 } else {
-                    if (node === "value" && tree.attributes !== undefined) {
-                        xml += tree[node];
+                    if (node !== "directive") {
+                        if (node === "value" && tree.attributes !== undefined) {
+                            xml += encode(tree[node]);
 
-                    } else {
-                        for (var i = 0; i < depth; i++) {
-                            xml += "\t";
+                        } else {
+                            for (var i = 0; i < depth; i++) {
+                                xml += "\t";
+                            }
+                            xml += "<" + node + ">" + encode(tree[node]) + "</" + node + ">\n";
                         }
-                        xml += "<" + node + ">" + tree[node] + "</" + node + ">\n";
                     }
                 }
             }
@@ -73,6 +117,8 @@ var xmljson = {
         if (typeof obj === "string") {
             obj = JSON.parse(obj);
         }
+
+
 
         return unwrap(obj, 0);
     },
@@ -125,7 +171,6 @@ var xmljson = {
                     if (!obj) obj = {};
 
                     if (obj[child.tagName] !== undefined && !(obj[child.tagName] instanceof Array)) {
-                        console.log("Array");
                         obj[child.tagName] = [obj[child.tagName]];
                     }
 
