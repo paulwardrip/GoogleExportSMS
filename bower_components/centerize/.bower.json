@@ -1,0 +1,29 @@
+{
+  "name": "centerize",
+  "main": "centerize.js",
+  "homepage": "https://github.com/paulwardrip/centerize",
+  "description": "a jquery plugin for centering elements and sizing elements percentages of their parents.",
+  "keywords": [
+    "center",
+    "jquery",
+    "size",
+    "position"
+  ],
+  "authors": [
+    "Paul Wardrip <pwardrip@gmail.com>"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "version": "0.1.1",
+  "_release": "0.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.1",
+    "commit": "aaed77314cf9fd8302a6eabdcda12bcae0565c75"
+  },
+  "_source": "https://github.com/paulwardrip/centerize.git",
+  "_target": "^0.1.1",
+  "_originalSource": "centerize"
+}

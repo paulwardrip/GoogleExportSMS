@@ -1,0 +1,14 @@
+{
+  "name": "sax",
+  "homepage": "https://github.com/isaacs/sax-js",
+  "version": "1.2.4",
+  "_release": "1.2.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.4",
+    "commit": "6066197e8ce8cf3a78dbc94a541d55f73021491e"
+  },
+  "_source": "https://github.com/isaacs/sax-js.git",
+  "_target": "*",
+  "_originalSource": "isaacs/sax-js"
+}

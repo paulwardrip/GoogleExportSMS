@@ -1,0 +1,13 @@
+{
+  "name": "auto-lightbox",
+  "version": "1.1.1",
+  "main": "auto-lightbox.js",
+  "private": false,
+  "repository": "https://github.com/paulwardrip/auto-lightbox.git",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-uglify": "^3.0.1"
+  }
+}
