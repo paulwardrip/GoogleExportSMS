@@ -1,6 +1,6 @@
 {
   "name": "dots",
-  "main": "dots.js",
+  "main": "src/dots.js",
   "description": "a jquery spinner of an animated [...] that is lightboxed.",
   "keywords": [
     "spinner",
@@ -16,14 +16,24 @@
     "centerize": "^0.1.1",
     "auto-lightbox": "^1.1.1"
   },
-  "_release": "0777adef74",
+  "moduleType": "globals",
+  "ignore": [
+    ".idea",
+    "bower_components",
+    "node_modules",
+    ".gitignore",
+    "Gruntfile.js",
+    "index.html",
+    "package.json"
+  ],
+  "version": "1.2.1",
+  "_release": "1.2.1",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "0777adef744fe348824e196d4e4a309f77199f9a"
+    "type": "version",
+    "tag": "v1.2.1",
+    "commit": "de14e0ecf8a9c21619975da8ffd80c05bcefe702"
   },
   "_source": "https://github.com/paulwardrip/dots.git",
   "_target": "*",
-  "_originalSource": "dots",
-  "_direct": true
+  "_originalSource": "dots"
 }

@@ -1,6 +1,6 @@
 {
   "name": "dots",
-  "main": "dots.js",
+  "main": "src/dots.js",
   "description": "a jquery spinner of an animated [...] that is lightboxed.",
   "keywords": [
     "spinner",
@@ -15,5 +15,16 @@
   "dependencies": {
     "centerize": "^0.1.1",
     "auto-lightbox": "^1.1.1"
-  }
+  },
+  "moduleType": "globals",
+  "ignore":[
+    ".idea",
+    "bower_components",
+    "node_modules",
+    ".gitignore",
+    "Gruntfile.js",
+    "index.html",
+    "package.json"
+  ]
+
 }

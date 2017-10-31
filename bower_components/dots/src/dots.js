@@ -7,7 +7,8 @@ $(document).ready(function () {
     var styles = ".dots {text-align: left;" +
         "position: absolute;" +
         "height: 240px;" +
-        "width: 400px;" +
+        "width: 300px;" +
+        "font-family: sans-serif;" +
         "font-size: 200px;" +
         "color: white;" +
         "background-color: black;" +
@@ -16,12 +17,33 @@ $(document).ready(function () {
         "}" +
         ".dots .inner {" +
         "position: absolute;" +
-        "left: 150px;" +
+        "left: 70px;" +
+        "}" +
+        ".dot1{" +
+        "animation: blinker 1.5s linear infinite;" +
+        "}" +
+        ".dot2{" +
+        "animation: blinker 1.5s linear infinite;" +
+        "animation-delay: .5s" +
+        "}" +
+        ".dot3{" +
+        "animation: blinker 1.5s linear infinite;" +
+        "animation-delay: 1s" +
+        "}" +
+        "@keyframes blinker {  " +
+        "50% { opacity: 0; }" +
         "}";
+
 
     $("head").append("<style type='text/css'>" + styles + "</style>");
 
-    var $elem = $("<div class='dots'><span class='inner'>...</span></div>");
+    var $elem = $("<div class='dots'>" +
+        "<span class='inner'>" +
+        "<span class='dot1'>.</span>" +
+        "<span class='dot2'>.</span>" +
+        "<span class='dot3'>.</span>" +
+        "</span>" +
+        "</div>");
     var $inner = $elem.find(".inner");
 
     $("body").append($elem);
@@ -32,16 +54,6 @@ $(document).ready(function () {
         show: function () {
             $elem.show();
             $elem.centerize();
-            interval = setInterval(function () {
-                var text = $elem.text();
-                if (text == "...") {
-                    $inner.text(".");
-                } else if (text == "..") {
-                    $inner.text("...");
-                } else {
-                    $inner.text("..");
-                }
-            },500);
         },
         hide: function () {
             clearInterval(interval);
