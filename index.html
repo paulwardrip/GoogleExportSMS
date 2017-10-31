@@ -14,11 +14,136 @@
     <script type="text/javascript" src="home/xmljson.js"></script>
     <script type="text/javascript" src="home/home.js"></script>
     <script src="home/dupecheck.js"></script>
+    <script src="guid.js"></script>
 </head>
 <body>
 
     <h1>Google SMS Exporter</h1>
 
+    <img src="home/android.png" class="android" />
+
+
+    <div class="frame" id="frame1">
+        <p>
+        <strong>If you have used Google <img src="home/voice.webp" width="30" style="vertical-align: middle"/>Voice
+            or <img src="home/hangouts.webp" width="30" style="vertical-align: middle"/>Hangouts and you have
+            switched or <i>want to switch</i> to a different SMS app on your Android phone, then this app is for you.</strong>
+        </p>
+
+        <p>All the SMS messages you have sent using Google Voice / Hangouts are available online and you can go back
+            into those apps to read your old messages, but they aren't stored as SMS messages in your phone, so you
+            can't read them in another text messaging app... but what if you could?</p>
+        <div class="tof2 steplink">Tell me more!</div>
+    </div>
+
+    <div class="frame" id="frame2" style="display: none">
+        <p> This website and the <i>free</i>
+            Android app <img src="home/backup.webp" width="30" style="vertical-align: middle"/>
+        <a href="https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore"
+           target="_blank">SMS Backup & Restore</a> will allow you to import those messages back into your phone
+            as SMS and then you can use whatever text messaging app you want
+            <i>and have your full message history</i>.</p>
+        <p>While this application will ask you for personal information and files, we do not keep any of this
+            information! The work all happens in your browser, no data is ever sent to the server hosting this
+            page, it never leaves your computer!</p>
+        <h3>Step 1</h3>
+        <p>Install SMS Backup and Restore on your phone.</p>
+        <div class="tof3 steplink">It's installed!</div>
+    </div>
+
+    <div class="frame drop-sbr" id="frame3" style="display: none">
+        <h3>Step 2</h3>
+        <ul>
+            <li>
+                Use SMS Backup &amp; Restore to backup the SMS messages on your phone to
+                <img src="home/dropbox.webp" width="20" style="vertical-align: middle"/> <strong>Dropbox</strong> or
+                <img src="home/drive.webp" width="20" style="vertical-align: middle"/> <strong>Google Drive</strong>
+            </li>
+            <li>
+                Wait for the file to synchronize to your local filesystem
+                <span style="color: grey"> (or download it if you are not using that feature of your chosen storage system).</span>
+            </li>
+            <li>
+                Drag and drop your <strong>sms-<span style="color: grey">yyyymmddhhmmss</span>.xml</strong> file directly onto this window.
+            </li>
+        </ul>
+        <div class="status-sbr"></div>
+        <div class="tof4c steplink">I don't want to import from my phone.</div>
+    </div>
+
+    <div class="frame drop-contacts" id="frame4" style="display: none">
+        <h3>Step 3</h3>
+        Go to <a href="https://takeout.google.com/settings/takeout" target="_blank">Google Takeout</a>.
+
+        <ul><li>Click <i>Select None</i> to clear the options you won't need.</li>
+            <li>Select the app(s) you want to export messages from<br/>
+                <img src="home/hangouts.webp" width="20" style="vertical-align: middle"/><strong>Hangouts</strong>,
+                <img src="home/voice.webp" width="20" style="vertical-align: middle"/><strong>Voice</strong>
+                (or both).
+            <li>Also select <img src="home/contacts.webp" width="20" style="vertical-align: middle"/>
+                <strong>Contacts</strong>.</li>
+            <li>Proceed to export your data. Unzip any zip files you received and proceed to the next step.</li>
+        </ul>
+
+        <div class="tof5 steplink">I have my data, proceed.</div>
+    </div>
+
+    <div class="frame drop-contacts" id="frame5" style="display: none">
+        <h3>Step 4</h3>
+
+        <ul>
+            <li>Enter your full name <input id="fullname"/></li>
+            <li>Enter your phone # <input id="phone"/></li>
+        </ul>
+
+        <p>It is important that both of those fields are correctly entered, please be sure not to make a mistake.</p>
+        <div>In your takeout files locate <strong>All Contacts.vcf</strong></div>
+
+        <p>Drag and Drop it into this window.</p>
+
+        <div class="status-vcf">This step cannot be skipped.</div>
+    </div>
+
+    <div class="frame drop-hangouts" id="frame6" style="display: none">
+        <h3>Step 5</h3>
+
+        <p>Drag and Drop your <strong>Hangouts.json</strong> into this window.</p>
+
+        <div class="status-ho"></div>
+
+        <div class="tof7c steplink">I'm not importing anything from Hangouts.</div>
+    </div>
+
+    <div class="frame drop-voice" id="frame7" style="display: none">
+        <h3>Step 6</h3>
+
+        <p>Drag and Drop your whole <strong>Calls</strong> <i>folder</i> from Voice into this window.</p>
+
+        <div class="status-vo"></div>
+
+        <div class="tof8c steplink">I'm not importing anything from Voice.</div>
+    </div>
+
+    <div class="frame" id="frame8" style="display: none">
+        <h3>Finished</h3>
+
+        <ul>
+            <li><span class="status-fin-sms">0</span> messages were imported from your phone.</li>
+            <li class="status-fin-ho-li"><span class="status-fin-ho">0</span> messages were imported from Hangouts.</li>
+            <li class="status-fin-vo-li"><span class="status-fin-vo">0</span> messages were imported from Voice.</li>
+            <li><span class="status-fin-dupe">0</span> duplicate messages were deleted.</li>
+            <li><span class="status-fin-final">0</span> messages are ready to be downloaded.</li>
+        </ul>
+
+        <p><a id="dlxml">Download XML</a> to your backup directory in
+            <img src="home/dropbox.webp" width="20" style="vertical-align: middle"/> <strong>Dropbox</strong> or
+            <img src="home/drive.webp" width="20" style="vertical-align: middle"/> <strong>Google Drive</strong></p>
+
+        <p>Restore that file with <img src="home/backup.webp" width="20" style="vertical-align: middle"/>
+        SMS Backup & Restore</p>
+    </div>
+
+<!--
     <p>With this tool you can merge the text messages from your Android device with backups from
         <img src="home/voice.webp" width="20" style="vertical-align: middle"/><strong>Google Voice</strong> and/or
         <img src="home/hangouts.webp" width="20" style="vertical-align: middle"/><strong>Hangouts</strong>,
@@ -43,15 +168,14 @@
         </li>
     </ul>
     <ul>
-        <li>Enter your full name <input id="fullname"/></li>
-        <li>Enter your phone # <input id="phone"/></li>
+
 
         <li class="step-backup"><div class="step-sbr">Drag and Drop the most recent <strong>sms-yyyymmddhhmmss.xml</strong> from
             <img src="home/backup.webp" width="20" style="vertical-align: middle"/> SMS Backup & Restore
             <div><a href="#" class="nobackup">I'm not importing any SMS messages from my phone</a>.</div>
             <br/>
             <div class="drop-sbr dropzone">Drop a file on me!</div></div>
-            <div class="status-sbr"></div>
+
         </li>
         <li class="step-contacts" style="display: none"><div class="step-vcf">Drag and Drop <strong>All Contacts.vcf</strong> into this box.
             <div class="drop-contacts dropzone">Drop a file on me!</div></div>
@@ -87,6 +211,16 @@
             SMS Backup & Restore</div>
     </ul>
 
+-->
     <div class="holding" style="display: none"></div>
+
+    <div class="step">
+        <span class="step1 active">1</span>
+        <span class="step2">2</span>
+        <span class="step3">3</span>
+        <span class="step4">4</span>
+        <span class="step5">5</span>
+        <span class="step6">6</span>
+    </div>
 </body>
 </html>

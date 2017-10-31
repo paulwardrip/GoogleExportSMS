@@ -1,5 +1,160 @@
 $(document).ready(function () {
 
+    $(".step").css({
+        display: "none"
+    });
+
+    $("#frame1").widthPercent(.6);
+    $("#frame1").heightPercent(.6);
+    $("#frame1").centerize();
+
+
+
+    var fqqs = document.querySelector("#frame1");
+    var fqcs = window.getComputedStyle(fqqs);
+
+    var bottomrow = {
+        top: (($("#frame1").position().top + $("#frame1").outerHeight(true)))
+            - (parseInt(fqcs.paddingBottom) + $(".step").height()),
+        inner: $("#frame1").outerHeight(true)
+            - (parseInt(fqcs.paddingBottom) + $(".tof2").height()),
+        left: $("#frame1").position().left + parseInt(fqcs.paddingLeft),
+        rightinner: parseInt(fqcs.paddingRight),
+        oh: $("#frame1").outerHeight(true),
+        br: parseInt(fqcs.borderRadius),
+    };
+
+    var fz = ($(window).height() - bottomrow.oh) / 2 - bottomrow.br;
+    $(".android").css("height", fz + "px");
+    $("h1").css("font-size", fz + "px");
+
+
+
+
+    $(".tof2").css({
+        top: bottomrow.inner + "px",
+        right: bottomrow.rightinner + "px"
+    });
+
+    $(".tof2").click(function () {
+        $("#frame1").hide();
+        $("#frame2").show();
+        $("#frame2").widthPercent(.6);
+        $("#frame2").heightPercent(.6);
+        $("#frame2").centerize();
+
+        $(".step").css({
+            top: bottomrow.top + "px",
+            left: bottomrow.left + "px",
+            position: "absolute",
+            display: "block"
+        });
+    });
+
+    $(".tof3").css({
+        top: bottomrow.inner + "px",
+        right: bottomrow.rightinner + "px"
+    });
+
+    $(".tof3").click(function () {
+
+        $("#frame2").hide();
+        $("#frame3").show();
+        $("#frame3").widthPercent(.6);
+        $("#frame3").heightPercent(.6);
+        $("#frame3").centerize();
+
+        $(".step1").removeClass("active").addClass("complete");
+        $(".step2").addClass("active");
+    });
+
+    $(".tof4c").css({
+        top: bottomrow.inner + "px",
+        right: bottomrow.rightinner + "px"
+    });
+
+    var tof4 = function () {
+        $("#frame3").hide();
+        $("#frame4").show();
+        $("#frame4").widthPercent(.6);
+        $("#frame4").heightPercent(.6);
+        $("#frame4").centerize();
+
+        $(".step2").removeClass("active").addClass("complete");
+        $(".step3").addClass("active");
+    };
+    $(".tof4c").click(tof4);
+
+    $(".tof5").css({
+        top: bottomrow.inner + "px",
+        right: bottomrow.rightinner + "px"
+    });
+
+    $(".tof5").click(function () {
+
+        $("#frame4").hide();
+        $("#frame5").show();
+        $("#frame5").widthPercent(.6);
+        $("#frame5").heightPercent(.6);
+        $("#frame5").centerize();
+
+        $(".step3").removeClass("active").addClass("complete");
+        $(".step4").addClass("active");
+    });
+
+    var tof6 = function () {
+        $("#frame5").hide();
+        $("#frame6").show();
+        $("#frame6").widthPercent(.6);
+        $("#frame6").heightPercent(.6);
+        $("#frame6").centerize();
+
+        $(".step4").removeClass("active").addClass("complete");
+        $(".step5").addClass("active");
+    };
+
+    var tof7 = function () {
+        $("#frame6").hide();
+        $("#frame7").show();
+        $("#frame7").widthPercent(.6);
+        $("#frame7").heightPercent(.6);
+        $("#frame7").centerize();
+
+        $(".step5").removeClass("active").addClass("complete");
+        $(".step6").addClass("active");
+    };
+
+    $(".tof7c").css({
+        top: bottomrow.inner + "px",
+        right: bottomrow.rightinner + "px"
+    });
+
+    $(".tof7c").click(function() {
+        $(".status-fin-ho-li").hide();
+        tof7();
+    });
+
+    var tof8 = function () {
+        $("#frame7").hide();
+        $("#frame8").show();
+        $("#frame8").widthPercent(.6);
+        $("#frame8").heightPercent(.6);
+        $("#frame8").centerize();
+
+        $(".step6").removeClass("active").addClass("complete");
+    };
+
+    $(".tof8c").click(function() {
+        $(".status-fin-vo-li").hide();
+        tof8();
+        finalize();
+    });
+
+    $(".tof8c").css({
+        top: bottomrow.inner + "px",
+        right: bottomrow.rightinner + "px"
+    });
+
     $("#phone").val(localStorage.getItem("sms-phone"));
     $("#fullname").val(localStorage.getItem("sms-fullname"));
 
@@ -40,7 +195,9 @@ $(document).ready(function () {
     }
 
     function c(e) {
-        console.log(e);
+        if (e.type === "dragenter") {
+            $(e.target).addClass("flashy");
+        }
         if (e.preventDefault) {
             e.preventDefault();
         }
@@ -53,13 +210,13 @@ $(document).ready(function () {
 
     $(".drop-sbr").on("drop", function (e) {
 
+        $(e.target).removeClass("flashy");
+
         e = e || window.event;
         if (e.preventDefault) {
             e.preventDefault();
         }
-        Dots.show();
-
-
+            Dots.show();
 
             var dt = e.originalEvent.dataTransfer;
 
@@ -74,11 +231,9 @@ $(document).ready(function () {
                         messages = xmljson.toJSON(xml);
                         console.log("Imported " + messages.smses.sms.length + " SMS, " + messages.smses.mms.length +
                             " MMS messages from backup.");
-                        $(".status-sbr").html("Imported <strong>" + messages.smses.sms.length +
-                            "</strong> SMS messages from backup.");
-                        $(".step-setup").hide();
-                        $(".step-sbr").hide();
-                        $(".step-contacts").show();
+
+                        $(".status-fin-sms").html(messages.smses.sms.length);
+                        tof4();
                         Dots.hide();
                     }, 100);
                 });
@@ -121,10 +276,7 @@ $(document).ready(function () {
                         } else {
                             console.log("phonebook initialized.");
                             phonebook = result;
-                            $(".status-vcf").html("Phonebook loaded with <strong>" + phonebook.contacts.length +
-                                "</strong> contacts.");
-                            $(".step-vcf").hide();
-                            $(".step-hangouts").show();
+                            tof6();
                         }
                     });
 
@@ -178,10 +330,8 @@ $(document).ready(function () {
                     importhangouts.convert(hojson, function (hangouts) {
                         addmessages(hangouts);
                         console.log("Imported", hangouts.length, "new total", messages.smses.sms.length);
-                        $(".status-ho").html("Imported <strong>" + hangouts.length + "</strong> messages from Hangouts.");
-                        $(".step-ho").hide();
-                        $(".step-voice").show();
-
+                        $(".status-fin-ho").html(hangouts.length);
+                        tof7();
                         Dots.hide();
                     })
 
@@ -244,11 +394,10 @@ $(document).ready(function () {
                                 importvoice.convert(vhtml, function (voices) {
                                     addmessages(voices);
                                     console.log("Imported", voices.length, "new total", messages.smses.sms.length);
-                                    $(".status-vo").html("Imported <strong>" + voices.length +
-                                        "</strong> messages from Voice.");
-                                    $(".step-vo").hide();
 
+                                    $(".status-fin-vo").html(voices.length);
                                     Dots.hide();
+                                    tof8();
                                     finalize();
                                 })
                             }
@@ -302,19 +451,26 @@ $(document).ready(function () {
     function finalize() {
         addmessages([]);
         var predupe = messages.smses.sms.length;
+
         dupecheck(messages);
-        $(".status-dupecheck").html("<div>Dupe check removed <i>" + (predupe - messages.smses.sms.length) +
-            "</i> duplicates, <strong>" + messages.smses.sms.length + "</strong> messages remained.</div>");
+        $(".status-fin-dupe").html(predupe - messages.smses.sms.length);
+
+        $(".status-fin-final").html(messages.smses.sms.length);
+
         var xml = xmljson.toXML(messages);
         var blob = new Blob([xml], {type: "text/xml"});
         var href = (URL || webkitURL).createObjectURL(blob);
         $("#dlxml").attr("download", "sms-" + moment().format("YYYYMMDDhhmmss") + ".xml");
         $("#dlxml").attr("href", href);
+        /*
         $(".step-done").show();
+
         $(".status-done").html("Merged <strong>" + (messages.smses.sms.length + messages.smses.mms.length) +
             "</strong> from all sources.")
+            */
     }
 
+    /*
     $(".nohangouts").click(function () {
         $(".step-hangouts").hide();
         $(".step-voice").show();
@@ -329,5 +485,5 @@ $(document).ready(function () {
         $(".step-backup").hide();
         $(".step-contacts").show();
     });
-
+*/
 });
